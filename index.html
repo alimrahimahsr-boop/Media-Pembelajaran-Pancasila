@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petualangan Pancasila di Keluargaku - Kelas 2 SD</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --primary: #FF7B9C;
+            --primary-hover: #FF527B;
+            --secondary: #FFC75F;
+            --accent: #4D96FF;
+            --success: #6BCB77;
+            --warning: #FF9F45;
+            --danger: #FF6B6B;
+            --bg-pastel: #FFF9F0;
+            --card-bg: #FFFFFF;
+            --text-main: #2C3E50;
+            --text-muted: #6C7A89;
+            --radius: 20px;
+            --shadow: 0 10px 25px rgba(0,0,0,0.05);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-pastel);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* HEADER & NAVIGATION */
+        header {
+            background: #FFFFFF;
+            padding: 15px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .user-badge {
+            background: #FFF0F5;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary);
+            border: 2px solid #FFD1DC;
+        }
+
+        nav {
+            background: #FFFFFF;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            overflow-x: auto;
+            border-bottom: 2px solid #F0F0F0;
+            scrollbar-width: none;
+        }
+
+        nav::-webkit-scrollbar { display: none; }
+
+        .nav-btn {
+            border: none;
+            background: transparent;
+            padding: 8px 16px;
+            border-radius: 15px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(255, 123, 156, 0.3);
+        }
+
+        /* CONTAINER & LAYOUT */
+        main {
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        .page-section {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .page-section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* CARDS & COMPONENTS */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            border: 3px solid #FFF2E6;
+        }
+
+        h1, h2, h3 {
+            color: var(--text-main);
+            margin-bottom: 12px;
+            font-weight: 800;
+        }
+
+        p {
+            line-height: 1.6;
+            color: #555;
+            font-size: 1.05rem;
+        }
+
+        /* BUTTONS */
+        .btn {
+            border: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            box-shadow: 0 6px 0 rgba(0,0,0,0.1);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); }
+        .btn-primary:active { transform: translateY(2px); box-shadow: none; }
+
+        .btn-secondary { background: var(--secondary); color: #4A3B00; }
+        .btn-accent { background: var(--accent); color: white; }
+        .btn-success { background: var(--success); color: white; }
+
+        /* FORM ELEMENTS */
+        .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        input[type="text"]:focus, textarea:focus, select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 123, 156, 0.2);
+        }
+
+        /* HOME PAGE */
+        .hero {
+            text-align: center;
+            padding: 30px 15px;
+        }
+
+        .hero-img {
+            max-width: 280px;
+            width: 100%;
+            margin: 20px auto;
+            border-radius: 20px;
+        }
+
+        .login-box {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        /* MARI BELAJAR */
+        .sila-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .sila-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            border-top: 8px solid var(--primary);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .sila-card:hover { transform: translateY(-5px); }
+
+        .sila-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* RUMAH INTERAKTIF */
+        .house-container {
+            position: relative;
+            background: #EAF6FF;
+            border-radius: 20px;
+            padding: 20px;
+            min-height: 350px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .room-btn {
+            background: white;
+            border: 3px solid var(--accent);
+            border-radius: 15px;
+            padding: 20px;
+            width: 140px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 700;
+        }
+
+        .room-btn:hover {
+            transform: scale(1.05);
+            background: var(--accent);
+            color: white;
+        }
+
+        /* GAME STYLES */
+        .game-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: var(--shadow);
+        }
+
+        .option-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .option-btn {
+            background: #F7FAFC;
+            border: 2px solid #E2E8F0;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+        }
+
+        .option-btn:hover {
+            background: #EDF2F7;
+            border-color: var(--accent);
+        }
+
+        .feedback-box {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 700;
+            display: none;
+        }
+
+        .feedback-box.correct { background: #DEF7EC; color: #03543F; }
+        .feedback-box.wrong { background: #FDE8E8; color: #9B1C1C; }
+
+        /* DASHBOARD & BADGES */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 10px; }
+            nav { width: 100%; justify-content: flex-start; }
+            .btn { width: 100%; }
+            .room-btn { width: 45%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="brand">
+            <span>🇮🇩</span> Petualangan Pancasila
+        </div>
+        <div class="user-badge" id="userBadge">Belum Login</div>
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav id="navbar">
+        <button class="nav-btn active" onclick="switchPage('beranda')">🏠 Beranda</button>
+        <button class="nav-btn" onclick="switchPage('belajar')">📚 Mari Belajar</button>
+        <button class="nav-btn" onclick="switchPage('bermain')">🎮 Ayo Bermain</button>
+        <button class="nav-btn" onclick="switchPage('tindakan')">🧩 Pilih Tindakan</button>
+        <button class="nav-btn" onclick="switchPage('latihan')">✏️ Latihan</button>
+        <button class="nav-btn" onclick="switchPage('tantangan')">🏆 Tantangan</button>
+        <button class="nav-btn" onclick="switchPage('jurnal')">🌱 Jurnal</button>
+        <button class="nav-btn" onclick="switchPage('hasil')">📊 Hasil Belajar</button>
+    </nav>
+
+    <!-- MAIN CONTENT AREA -->
+    <main>
+
+        <!-- 1. BERANDA -->
+        <section id="beranda" class="page-section active">
+            <div class="hero card">
+                <h1>PETUALANGAN PANCASILA DI KELUARGAKU</h1>
+                <p>Aku Mengenal dan Menerapkan Nilai-Nilai Pancasila di Rumah</p>
+                
+                <svg class="hero-img" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="20" y="50" width="160" height="90" rx="10" fill="#FFD1DC"/>
+                    <polygon points="100,10 10,60 190,60" fill="#FF7B9C"/>
+                    <rect x="80" y="90" width="40" height="50" fill="#4D96FF"/>
+                    <circle cx="100" cy="35" r="15" fill="#FFC75F"/>
+                </svg>
+
+                <div class="login-box">
+                    <h3>Yuk, Masukkan Identitasmu!</h3>
+                    <br>
+                    <div class="form-group">
+                        <label>Nama Lengkap:</label>
+                        <input type="text" id="inputNama" placeholder="Ketik namamu di sini...">
+                    </div>
+                    <div class="form-group">
+                        <label>Kelas:</label>
+                        <input type="text" id="inputKelas" value="2 SD" placeholder="Contoh: 2A">
+                    </div>
+                    <button class="btn btn-primary" onclick="mulaiPetualangan()">🚀 MULAI PETUALANGAN</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. MARI BELAJAR -->
+        <section id="belajar" class="page-section">
+            <h2>📚 Mari Belajar Nilai Pancasila</h2>
+            <p>Pilih sila di bawah ini untuk mempelajari contoh penerapannya di rumah!</p>
+            <br>
+            <div class="sila-grid">
+                <div class="sila-card" style="border-color: #FFC75F;">
+                    <div class="sila-icon">⭐</div>
+                    <h3>Sila 1: Ketuhanan Yang Maha Esa</h3>
+                    <p><strong>Contoh di Rumah:</strong> Berdoa sebelum makan, menghormati anggota keluarga yang sedang beribadah, bersyukur.</p>
+                </div>
+                <div class="sila-card" style="border-color: #FF7B9C;">
+                    <div class="sila-icon">⛓️</div>
+                    <h3>Sila 2: Kemanusiaan yang Adil dan Beradab</h3>
+                    <p><strong>Contoh di Rumah:</strong> Menyayangi keluarga, membantu adik/kakak, tidak mengejek, berbicara sopan.</p>
+                </div>
+                <div class="sila-card" style="border-color: #4D96FF;">
+                    <div class="sila-icon">🌳</div>
+                    <h3>Sila 3: Persatuan Indonesia</h3>
+                    <p><strong>Contoh di Rumah:</strong> Bermain bersama saudara tanpa bertengkar, bekerja sama membersihkan rumah.</p>
+                </div>
+                <div class="sila-card" style="border-color: #FF9F45;">
+                    <div class="sila-icon">🐂</div>
+                    <h3>Sila 4: Kerakyatan...</h3>
+                    <p><strong>Contoh di Rumah:</strong> Bermusyawarah menentukan tempat liburan, mendengarkan pendapat ayah, ibu, dan saudara.</p>
+                </div>
+                <div class="sila-card" style="border-color: #6BCB77;">
+                    <div class="sila-icon">🌾</div>
+                    <h3>Sila 5: Keadilan Sosial...</h3>
+                    <p><strong>Contoh di Rumah:</strong> Berbagi makanan secara adil, bergiliran menggunakan mainan, hemat energi.</p>
+                </div>
+            </div>
+
+            <br><br>
+            <h2>🏠 Eksplorasi Rumah Pancasila</h2>
+            <p>Klik area rumah untuk melihat situasi penerapan Pancasila!</p>
+            <br>
+            <div class="house-container">
+                <div class="room-btn" onclick="bukaRuangan('Ruang Makan', 'Sebelum makan bersama keluarga, tindakan sesuai Sila 1 adalah...', ['Berdoa bersama', 'Berebut makanan', 'Bermain HP'], 0)">
+                    <span>🍽️</span> Ruang Makan
+                </div>
+                <div class="room-btn" onclick="bukaRuangan('Ruang Keluarga', 'Saat menentukan acara TV yang akan ditonton bersama, tindakan Sila 4 adalah...', ['Memaksakan kehendak', 'Bermusyawarah', 'Marah-marah'], 1)">
+                    <span>📺</span> Ruang Keluarga
+                </div>
+                <div class="room-btn" onclick="bukaRuangan('Halaman', 'Melihat ayah sedang menyapu halaman, tindakan Sila 2 dan 3 adalah...', ['Membantu ayah', 'Acuh tak acuh', 'Mewarnai dinding'], 0)">
+                    <span>🌳</span> Halaman
+                </div>
+                <div class="room-btn" onclick="bukaRuangan('Kamar Tidur', 'Kakak dan adik sama-sama ingin main mainan yang sama, Sila 5 menyarankan...', ['Bergiliran main', 'Sembunyikan mainan', 'Merusaknya'], 0)">
+                    <span>🛏️</span> Kamar Tidur
+                </div>
+            </div>
+            
+            <div id="modalRuangan" class="card" style="display:none; margin-top:20px;">
+                <h3 id="roomTitle">Ruangan</h3>
+                <p id="roomDesc">Deskripsi situasi...</p>
+                <div class="option-grid" id="roomOptions"></div>
+                <div id="roomFeedback" class="feedback-box"></div>
+            </div>
+        </section>
+
+        <!-- 3. AYO BERMAIN (SESUAI / TIDAK) -->
+        <section id="bermain" class="page-section">
+            <div class="game-card">
+                <h2>🎮 Game: Sesuai atau Tidak Sesuai?</h2>
+                <p>Apakah perilaku berikut sesuai dengan nilai Pancasila di rumah?</p>
+                <br>
+                <div class="card" style="background: #F0F8FF;">
+                    <h3 id="gameText">"Gilang membantu Ibu merapikan meja makan."</h3>
+                </div>
+                <div style="display:flex; gap:10px; justify-content:center;">
+                    <button class="btn btn-success" onclick="jawabGameSesuai(true)">✅ SESUAI</button>
+                    <button class="btn" style="background:var(--danger); color:white;" onclick="jawabGameSesuai(false)">❌ TIDAK SESUAI</button>
+                </div>
+                <div id="gameFeedback" class="feedback-box"></div>
+            </div>
+        </section>
+
+        <!-- 4. PILIH TINDAKAN -->
+        <section id="tindakan" class="page-section">
+            <div class="game-card">
+                <h2>🧩 Pilih Tindakan Tepat</h2>
+                <p id="scenarioText">Situasi sedang dimuat...</p>
+                <div class="option-grid" id="scenarioOptions"></div>
+                <div id="scenarioFeedback" class="feedback-box"></div>
+                <br>
+                <button class="btn btn-primary" id="btnNextScenario" style="display:none;" onclick="nextScenario()">Lanjut Situasi ➔</button>
+            </div>
+        </section>
+
+        <!-- 5. LATIHAN (QUIZ) -->
+        <section id="latihan" class="page-section">
+            <div class="card">
+                <h2>✏️ Latihan Soal Pancasila</h2>
+                <div id="quizContainer">
+                    <p id="quizQuestion">Pertanyaan akan tampil di sini...</p>
+                    <div class="option-grid" id="quizOptions"></div>
+                    <div id="quizFeedback" class="feedback-box"></div>
+                    <br>
+                    <button class="btn btn-primary" id="btnNextQuiz" style="display:none;" onclick="nextQuiz()">Soal Berikutnya ➔</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. TANTANGAN PANCASILA -->
+        <section id="tantangan" class="page-section">
+            <div class="game-card">
+                <h2>🏆 Misi Anak Pancasila</h2>
+                <p>Selesaikan 10 tantangan cepat untuk menguji pemahamanmu!</p>
+                <br>
+                <div id="challengeBox">
+                    <button class="btn btn-secondary" onclick="startChallenge()">🔥 MULAI TANTANGAN</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. JURNAL KEBAIKANKU -->
+        <section id="jurnal" class="page-section">
+            <div class="card">
+                <h2>🌱 Jurnal Kebaikanku Hari Ini</h2>
+                <p>Refleksikan kebaikan yang sudah kamu lakukan di rumah ya!</p>
+                <br>
+                <div class="form-group">
+                    <label>Hari ini saya membantu keluarga dengan cara:</label>
+                    <textarea id="jurnalBantuan" rows="3" placeholder="Contoh: Merapikan tempat tidur sendiri dan mencuci piring..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Saya sudah menerapkan Pancasila Sila ke-:</label>
+                    <select id="jurnalSila">
+                        <option value="1">Sila 1 (Ibadah & Doa)</option>
+                        <option value="2">Sila 2 (Menyayangi & Membantu)</option>
+                        <option value="3">Sila 3 (Kerjasama & Rukun)</option>
+                        <option value="4">Sila 4 (Musyawarah & Dengar Pendapat)</option>
+                        <option value="5">Sila 5 (Adil & Berbagi)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Perasaan saya setelah melakukan kebaikan:</label>
+                    <select id="jurnalPerasaan">
+                        <option value="😊 Senang">😊 Senang</option>
+                        <option value="🥰 Bahagia">🥰 Bahagia</option>
+                        <option value="😄 Bangga">😄 Bangga</option>
+                    </select>
+                </div>
+                
+                <br>
+                <h3>🤙 Janjiku Hari Ini</h3>
+                <div class="form-group">
+                    <label><input type="checkbox" id="janji1"> Saya akan selalu berbicara sopan kepada orang tua.</label><br>
+                    <label><input type="checkbox" id="janji2"> Saya akan berbagi mainan/makanan dengan saudara.</label><br>
+                    <label><input type="checkbox" id="janji3"> Saya siap membantu menjaga kebersihan rumah.</label>
+                </div>
+
+                <button class="btn btn-success" onclick="simpanJurnal()">💾 SIMPAN REFLEKSI</button>
+            </div>
+        </section>
+
+        <!-- 8. HASIL BELAJARKU -->
+        <section id="hasil" class="page-section">
+            <div class="card">
+                <h2>📊 Dashboard Hasil Belajarku</h2>
+                <br>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div>Skor Latihan</div>
+                        <div class="stat-value" id="statSkor">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div>Nilai Akhir</div>
+                        <div class="stat-value" id="statNilai">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div>Status</div>
+                        <div class="stat-value" id="statStatus" style="font-size:1.2rem;">-</div>
+                    </div>
+                </div>
+
+                <div class="card" style="background:#FAF5FF;">
+                    <h3>Detail Evaluasi</h3>
+                    <p><strong>Nama:</strong> <span id="resNama">-</span></p>
+                    <p><strong>Kelas:</strong> <span id="resKelas">-</span></p>
+                    <p><strong>Rekomendasi:</strong> <span id="resRekomendasi">-</span></p>
+                </div>
+
+                <br>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="kirimKeGoogleSheets()">📊 SIMPAN KE GOOGLE SHEETS</button>
+                    <button class="btn btn-accent" onclick="bukaGuruDocs()">📄 BUKA LEMBAR REFLEKSI GURU</button>
+                </div>
+                <div id="syncFeedback" class="feedback-box"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        /* CONFIGURATION URLS */
+        const GOOGLE_SCRIPT_URL = "MASUKKAN_URL_GOOGLE_APPS_SCRIPT_DI_SINI";
+        const GOOGLE_DOCS_URL = "MASUKKAN_URL_GOOGLE_DOCS_DI_SINI";
+
+        /* APP STATE */
+        let state = {
+            nama: localStorage.getItem('pancasila_nama') || '',
+            kelas: localStorage.getItem('pancasila_kelas') || '',
+            skorLatihan: parseInt(localStorage.getItem('pancasila_skor')) || 0,
+            totalSoal: 0,
+            benarCount: 0,
+            salahCount: 0,
+            refleksiText: ''
+        };
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            if (state.nama) {
+                document.getElementById('inputNama').value = state.nama;
+                document.getElementById('inputKelas').value = state.kelas;
+                updateUserBadge();
+            }
+            initGames();
+        });
+
+        function updateUserBadge() {
+            const badge = document.getElementById('userBadge');
+            badge.innerText = state.nama ? `👧/👦 ${state.nama} (${state.kelas})` : 'Belum Login';
+        }
+
+        function switchPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(pageId).classList.add('active');
+            event.target.classList.add('active');
+
+            if(pageId === 'hasil') updateDashboard();
+        }
+
+        function mulaiPetualangan() {
+            const nama = document.getElementById('inputNama').value.trim();
+            const kelas = document.getElementById('inputKelas').value.trim();
+
+            if (!nama) {
+                alert('Silakan masukkan namamu terlebih dahulu ya!');
+                return;
+            }
+
+            state.nama = nama;
+            state.kelas = kelas;
+            localStorage.setItem('pancasila_nama', nama);
+            localStorage.setItem('pancasila_kelas', kelas);
+
+            updateUserBadge();
+            switchPage('belajar');
+        }
+
+        /* GAME 1: RUMAH INTERAKTIF */
+        function bukaRuangan(nama, q, ops, idxBenar) {
+            const modal = document.getElementById('modalRuangan');
+            modal.style.display = 'block';
+            document.getElementById('roomTitle').innerText = '🏠 Area: ' + nama;
+            document.getElementById('roomDesc').innerText = q;
+
+            const optContainer = document.getElementById('roomOptions');
+            optContainer.innerHTML = '';
+            document.getElementById('roomFeedback').style.display = 'none';
+
+            ops.forEach((op, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = op;
+                btn.onclick = () => {
+                    const fb = document.getElementById('roomFeedback');
+                    fb.style.display = 'block';
+                    if (idx === idxBenar) {
+                        fb.className = 'feedback-box correct';
+                        fb.innerText = '🎉 Hebat! Pilihanmu menunjukkan penerapan nilai Pancasila.';
+                        confetti({ particleCount: 50 });
+                    } else {
+                        fb.className = 'feedback-box wrong';
+                        fb.innerText = '😊 Coba pikirkan lagi tindakan yang lebih santun dan bermanfaat ya.';
+                    }
+                };
+                optContainer.appendChild(btn);
+            });
+        }
+
+        /* GAME 2: SESUAI ATAU TIDAK */
+        const listSesuai = [
+            { text: "Gilang membantu Ibu merapikan meja makan.", ans: true, exp: "Membantu orang tua adalah perbuatan terpuji!" },
+            { text: "Lani merebut mainan adik hingga menangis.", ans: false, exp: "Merebut mainan bisa merusak kerunan." },
+            { text: "Budi berdoa dengan tenang sebelum makan.", ans: true, exp: "Berdoa bentuk syukur kepada Tuhan (Sila 1)." },
+            { text: "Siti memaksakan kehendak saat memilih tempat wisata.", ans: false, exp: "Sebaiknya dimusyawarahkan bersama (Sila 4)." }
+        ];
+        let idxSesuai = 0;
+
+        function jawabGameSesuai(val) {
+            const item = listSesuai[idxSesuai];
+            const fb = document.getElementById('gameFeedback');
+            fb.style.display = 'block';
+
+            if (val === item.ans) {
+                fb.className = 'feedback-box correct';
+                fb.innerText = '🎉 Benar! ' + item.exp;
+                state.skorLatihan += 10;
+                confetti();
+            } else {
+                fb.className = 'feedback-box wrong';
+                fb.innerText = '😊 Kurang tepat. ' + item.exp;
+            }
+
+            setTimeout(() => {
+                idxSesuai = (idxSesuai + 1) % listSesuai.length;
+                document.getElementById('gameText').innerText = `"${listSesuai[idxSesuai].text}"`;
+                fb.style.display = 'none';
+            }, 2500);
+        }
+
+        /* GAME 3: PILIH TINDAKAN */
+        const listScenarios = [
+            {
+                q: "Kakak dan adik sama-sama ingin menggunakan sepeda.",
+                ops: ["Merebut sepeda", "Bergantian menggunakan sepeda", "Menangis keras-keras"],
+                ans: 1,
+                exp: "Bergantian menunjukkan sikap adil dan menghargai orang lain."
+            },
+            {
+                q: "Ibu meminta bantuanmu merapikan mainan yang berserakan.",
+                ops: ["Pura-pura tidak mendengar", "Langsung membantu dengan senang hati", "Pindah ke kamar lain"],
+                ans: 1,
+                exp: "Membantu ibu menjaga kebersihan rumah sesuai Sila 2 & 3."
+            }
+        ];
+        let idxScenario = 0;
+
+        function renderScenario() {
+            const sc = listScenarios[idxScenario];
+            document.getElementById('scenarioText').innerText = sc.q;
+            const container = document.getElementById('scenarioOptions');
+            container.innerHTML = '';
+            document.getElementById('scenarioFeedback').style.display = 'none';
+            document.getElementById('btnNextScenario').style.display = 'none';
+
+            sc.ops.forEach((op, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = op;
+                btn.onclick = () => {
+                    const fb = document.getElementById('scenarioFeedback');
+                    fb.style.display = 'block';
+                    if (idx === sc.ans) {
+                        fb.className = 'feedback-box correct';
+                        fb.innerText = '🎉 ' + sc.exp;
+                        confetti();
+                    } else {
+                        fb.className = 'feedback-box wrong';
+                        fb.innerText = '😊 ' + sc.exp;
+                    }
+                    document.getElementById('btnNextScenario').style.display = 'inline-block';
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        function nextScenario() {
+            idxScenario = (idxScenario + 1) % listScenarios.length;
+            renderScenario();
+        }
+
+        /* GAME 4: QUIZ LATIHAN */
+        const listQuiz = [
+            { q: "Menghormati orang tua yang sedang beribadah merupakan pengamalan Sila ke-...", ops: ["Sila 1", "Sila 2", "Sila 3"], ans: 0 },
+            { q: "Jika ada perbedaan pendapat saat berdiskusi keluarga, kita harus...", ops: ["Marah", "Mendengarkan dengan baik", "Tidur"], ans: 1 },
+            { q: "Membagi kue secara adil kepada adik dan kakak sesuai nilai Sila ke-...", ops: ["Sila 5", "Sila 1", "Sila 3"], ans: 0 }
+        ];
+        let idxQuiz = 0;
+
+        function renderQuiz() {
+            const q = listQuiz[idxQuiz];
+            document.getElementById('quizQuestion').innerText = (idxQuiz + 1) + ". " + q.q;
+            const container = document.getElementById('quizOptions');
+            container.innerHTML = '';
+            document.getElementById('quizFeedback').style.display = 'none';
+            document.getElementById('btnNextQuiz').style.display = 'none';
+
+            q.ops.forEach((op, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = op;
+                btn.onclick = () => {
+                    state.totalSoal++;
+                    const fb = document.getElementById('quizFeedback');
+                    fb.style.display = 'block';
+                    if (idx === q.ans) {
+                        fb.className = 'feedback-box correct';
+                        fb.innerText = '🎉 Jawabanmu Benar!';
+                        state.benarCount++;
+                        state.skorLatihan += 10;
+                    } else {
+                        fb.className = 'feedback-box wrong';
+                        fb.innerText = '😊 Kurang Tepat!';
+                        state.salahCount++;
+                    }
+                    localStorage.setItem('pancasila_skor', state.skorLatihan);
+                    document.getElementById('btnNextQuiz').style.display = 'inline-block';
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        function nextQuiz() {
+            idxQuiz++;
+            if (idxQuiz < listQuiz.length) {
+                renderQuiz();
+            } else {
+                document.getElementById('quizContainer').innerHTML = '<h3>🎉 Latihan Selesai! Kamu hebat sudah menyelesaikan semua soal.</h3>';
+            }
+        }
+
+        function initGames() {
+            renderScenario();
+            renderQuiz();
+        }
+
+        /* JURNAL */
+        function simpanJurnal() {
+            const txt = document.getElementById('jurnalBantuan').value;
+            if(!txt) {
+                alert('Tuliskan dulu kebaikanmu hari ini ya!');
+                return;
+            }
+            state.refleksiText = txt;
+            alert('🌱 Refleksi dan Janjimu berhasil disimpan!');
+        }
+
+        /* DASHBOARD */
+        function updateDashboard() {
+            document.getElementById('statSkor').innerText = state.skorLatihan;
+            const total = state.totalSoal || 1;
+            const nilai = Math.round((state.benarCount / total) * 100) || (state.skorLatihan > 0 ? 85 : 0);
+            
+            document.getElementById('statNilai').innerText = nilai;
+            document.getElementById('resNama').innerText = state.nama || 'Belum diisi';
+            document.getElementById('resKelas').innerText = state.kelas || 'Belum diisi';
+
+            const statusElem = document.getElementById('statStatus');
+            const rekElem = document.getElementById('resRekomendasi');
+
+            if (nilai >= 75) {
+                statusElem.innerText = 'TUNTAS 🌟';
+                statusElem.style.color = 'var(--success)';
+                rekElem.innerText = 'Hebat! Kamu siap melanjutkan ke Tantangan Pancasila berikutnya.';
+            } else {
+                statusElem.innerText = 'BIMBINGAN 💡';
+                statusElem.style.color = 'var(--warning)';
+                rekElem.innerText = 'Yuk belajar lagi melalui menu Mari Belajar dan coba latihan kembali.';
+            }
+        }
+
+        /* INTEGRATION FUNCTIONS */
+        function kirimKeGoogleSheets() {
+            const fb = document.getElementById('syncFeedback');
+            fb.style.display = 'block';
+            fb.className = 'feedback-box';
+            fb.innerText = '⏳ Mengirim data...';
+
+            const payload = {
+                nama: state.nama || 'Anonim',
+                kelas: state.kelas || '2 SD',
+                tanggal: new Date().toLocaleDateString('id-ID'),
+                materi: "Menerapkan Nilai Pancasila di Keluarga",
+                elemen: "UUD NRI Tahun 1945",
+                jumlahSoal: state.totalSoal,
+                benar: state.benarCount,
+                salah: state.salahCount,
+                nilai: document.getElementById('statNilai').innerText,
+                persentase: document.getElementById('statNilai').innerText + '%',
+                refleksi: state.refleksiText || 'Belum mengisi refleksi'
+            };
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                fb.className = 'feedback-box correct';
+                fb.innerText = '✅ Hasil belajar berhasil disimpan ke Google Sheets Guru!';
+            })
+            .catch(err => {
+                fb.className = 'feedback-box wrong';
+                fb.innerText = '⚠️ Data belum tersimpan. Periksa koneksi internet atau Script URL.';
+            });
+        }
+
+        function bukaGuruDocs() {
+            window.open(GOOGLE_DOCS_URL, '_blank');
+        }
+
+        function startChallenge() {
+            alert('🏆 Misi Tantangan Pancasila Dimulai! Jawab semua soal latihan untuk memperoleh badge bintang.');
+            switchPage('latihan');
+        }
+    </script>
+</body>
+</html>
